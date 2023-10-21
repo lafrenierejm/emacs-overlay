@@ -37,7 +37,7 @@
       # Run Hercules CI for these systems.
       herculesCI.ciSystems = [ "x86_64-linux" ];
 
-    } // flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
+    } // flake-utils.lib.eachSystem [ "x86_64-linux" "aarch64-darwin" ] (system:
     {
       hydraJobs =
         let
@@ -86,7 +86,7 @@
           "23.05" = mkHydraJobs (importPkgs nixpkgs-stable { inherit system; });
           "unstable" = mkHydraJobs (importPkgs nixpkgs { inherit system; });
         };
-    }) // flake-utils.lib.eachDefaultSystem (system: (
+    }) // flake-utils.lib.eachSystem [ "x86_64-linux" "aarch64-darwin" ] (system: (
       let
         pkgs = importPkgs nixpkgs { inherit system; };
         inherit (pkgs) lib;
