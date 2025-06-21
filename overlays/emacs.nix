@@ -7,20 +7,15 @@ let
         if repoMeta.type == "savannah" then
           {
             repo,
-            rev,
-            name ? "savannah",
             ...
-          }@args: (super.fetchgit (let
-            repo' = {
-              elpa = "emacs/elpa";
+          }@args: (super.fetchFromGitHub ({
+              owner = "emacsmirror";
+              repo = {
+              elpa = "gnu_elpa";
               emacs = "emacs";
-              nongnu = "emacs/nongnu";
+              nongnu = "nongnu_elpa";
             }."${repo}";
-            in {
-              url = "https://git.savannah.gnu.org/git/${repo'}.git";
-              rev = rev;
-              name = name;
-            } // removeAttrs args [ "repo" "rev" ]))
+            } // removeAttrs args [ "repo" ]))
         else if repoMeta.type == "github" then
           super.fetchFromGitHub
         else
