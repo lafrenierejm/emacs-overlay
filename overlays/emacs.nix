@@ -5,7 +5,16 @@ let
       repoMeta = super.lib.importJSON jsonFile;
       fetcher =
         if repoMeta.type == "savannah" then
-          super.fetchFromSavannah
+          {
+            repo,
+            rev,
+            name ? "savannah",
+            ...
+          }@args: (super.fetchgit ({
+            url = "https://cgit.git.savannah.gnu.org/cgit/${repo}.git";
+            rev = rev;
+            name = name;
+          } // removeAttrs args [ "repo" "rev" ]))
         else if repoMeta.type == "github" then
           super.fetchFromGitHub
         else
