@@ -10,11 +10,17 @@ let
             rev,
             name ? "savannah",
             ...
-          }@args: (super.fetchgit ({
-            url = "https://git.savannah.gnu.org/git/${repo}.git";
-            rev = rev;
-            name = name;
-          } // removeAttrs args [ "repo" "rev" ]))
+          }@args: (super.fetchgit (let
+            repo' = {
+              elpa = "emacs/elpa";
+              emacs = "emacs";
+              nongnu = "emacs/nongnu";
+            }."${repo}";
+            in {
+              url = "https://git.savannah.gnu.org/git/${repo'}.git";
+              rev = rev;
+              name = name;
+            } // removeAttrs args [ "repo" "rev" ]))
         else if repoMeta.type == "github" then
           super.fetchFromGitHub
         else
