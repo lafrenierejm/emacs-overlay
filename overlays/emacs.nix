@@ -11,7 +11,7 @@ let
             name ? "savannah",
             ...
           }@args: (super.fetchgit ({
-            url = "https://cgit.git.savannah.gnu.org/cgit/${repo}.git";
+            url = "https://git.savannah.gnu.org/git/${repo}.git";
             rev = rev;
             name = name;
           } // removeAttrs args [ "repo" "rev" ]))
